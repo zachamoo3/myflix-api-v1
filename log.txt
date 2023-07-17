@@ -1,7 +1,0 @@
-URL: /documentation
-        Timestamp: Thu Jul 06 2023 21:37:34 GMT-0500 (Central Daylight Time)
-        
-        URL: /favicon.ico
-        Timestamp: Thu Jul 06 2023 21:37:34 GMT-0500 (Central Daylight Time)
-        
-        
