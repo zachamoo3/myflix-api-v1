@@ -42,9 +42,9 @@ let topMovies = [
         year: '1956'
     },
     {
-        title: `Harry Potter: The Goblet of Fire`,
-        director: 'Mike Newell',
-        year: '2005'
+        title: `For a Few Dollars More`,
+        director: 'Sergio Leone',
+        year: '1965'
     },
     {
         title: `The Santa Clause`,
