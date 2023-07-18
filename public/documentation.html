@@ -23,7 +23,7 @@
                 <td>Business Logic</td>
                 <td>URL</td>
                 <td>HTTP Method</td>
-                <td>Query Parameters</td>
+                <td>Path Variables</td>
                 <td>Request body data format</td>
                 <td>Response body data format</td>
             </tr>
@@ -35,48 +35,115 @@
                 <td>GET / Read</td>
                 <td>None</td>
                 <td>None</td>
-                <td></td>
+                <td>A JSON object holding data about all movies</td>
             </tr>
             <tr>
                 <td>Return data (description, genre, director, image URL, whether it is featured or not) about a single
                     movie by title to the user</td>
-                <td>/movies/:title</td>
+                <td>/movies/:movieTitle</td>
                 <td>GET / Read</td>
-                <td>[title]</td>
+                <td>[movieTitle]</td>
                 <td>None</td>
-                <td></td>
+                <td>
+                    {
+                        "Title": "movieTitle"
+                        "Year": "YYYY"
+                        "Image": "URL leading to an image of the movie cover"
+                        "Description": "Brief description of the movie"
+                        "Directors":
+                            [
+                                {
+                                    "Name": "firstName lastName",
+                                    "Birth": "YYYY",
+                                    "Death": "YYYY",
+                                    "Bio": "Biographical description of director"
+                                },
+                                {
+                                    "Name": "firstName lastName",
+                                    "Birth": "YYYY",
+                                    "Death": "YYYY",
+                                    "Bio": "Biographical description of director"
+                                }
+                            ]
+                        "Genres":
+                            [
+                                {
+                                    "Name": "genreName",
+                                    "Description": "Description of genreName"
+                                },
+                                {
+                                    "Name": "genreName",
+                                    "Description": "Description of genreName"
+                                }
+                            ]
+                    }
+                </td>
             </tr>
             <tr>
                 <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-                <td>/movies/genres/:genreName</td>
+                <td>/genres/:genreName</td>
                 <td>GET / Read</td>
                 <td>[genreName]</td>
                 <td>None</td>
-                <td></td>
+                <td>
+                    {
+                        "Name": "genreName",
+                        "Description": "Description of genreName"
+                    }
+                </td>
             </tr>
             <tr>
                 <td>Return data about a director (bio, birth year, death year) by name</td>
-                <td>/movies/directors/:directorName</td>
+                <td>/directors/:directorName</td>
                 <td>GET / Read</td>
                 <td>[directorName]</td>
                 <td>None</td>
-                <td></td>
+                <td>
+                    {
+                        "Name": "firstName lastName",
+                        "Birth": "YYYY",
+                        "Death": "YYYY",
+                        "Bio": "Biographical description of director"
+                    }
+                </td>
             </tr>
             <tr>
                 <td>Allow new users to register</td>
                 <td>/users</td>
                 <td>POST / Create</td>
                 <td>None</td>
-                <td></td>
-                <td></td>
+                <td>
+                    {
+                        "id": "",
+                        "name": "firstName lastName",
+                        "favoriteMovies": [array of favorite movies]
+                    }
+                </td>
+                <td>
+                    {
+                        "id": "unique randomly generated identification",
+                        "name": "firstName lastName",
+                        "favoriteMovies": [array of favorite movies]
+                    }
+                </td>
             </tr>
             <tr>
                 <td>Allow users to update their user info (username)</td>
                 <td>/users/:id</td>
                 <td>PUT / Update</td>
                 <td>[id]</td>
-                <td></td>
-                <td></td>
+                <td>
+                    {
+                        "name": "newUserName"
+                    }
+                </td>
+                <td>
+                    {
+                        "id": "usersID",
+                        "name": "newUserName",
+                        "favoriteMovies": [array of favorite movies]
+                    }
+                </td>
             </tr>
             <tr>
                 <td>Allow users to add a movie to their list of favorites</td>
@@ -84,7 +151,7 @@
                 <td>POST / Create</td>
                 <td>[id], [movieTitle]</td>
                 <td>None</td>
-                <td></td>
+                <td>A text message indicating that movieTitle has been added to the users favoriteMovies</td>
             </tr>
             <tr>
                 <td>Allow users to remove a movie from their list of favorites</td>
@@ -92,7 +159,7 @@
                 <td>DELETE / Delete</td>
                 <td>[id], [movieTitle]</td>
                 <td>none</td>
-                <td></td>
+                <td>A text message indicating that movieTitle has been removed from the users favoriteMovies</td>
             </tr>
             <tr>
                 <td>Allow existing users to deregister</td>
@@ -100,7 +167,7 @@
                 <td>DELETE / Delete</td>
                 <td>[id]</td>
                 <td>none</td>
-                <td></td>
+                <td>A text message indicating that the user has been deleted</td>
             </tr>
         </tbody>
     </table>
