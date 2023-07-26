@@ -4,12 +4,25 @@ const express = require('express'),
     fs = require('fs'),
     path = require('path'),
     bodyParser = require('body-parser'),
-    uuid = require('uuid');
+    uuid = require('uuid'),
+    mongoose = require('mongoose'),
+    Models = require('./models.js');
+
+const Genres = Models.Genre;
+const Directors = Models.Director;
+const Movies = Models.Movies;
+const Users = Models.User;
 
 const app = express();
 
 app.use(bodyParser.json());
 
+mongoose.connect('mongodb://localhost:27017/myFlixDB', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+/*
 let users = [
     {
         id: 1,
@@ -798,6 +811,7 @@ let directors = [
         'Bio': `A whiz-kid with special effects, Robert is from the Spielberg camp of film-making (Steven Spielberg produced many of his films). Usually working with writing partner Bob Gale, Robert's earlier films show he has a talent for zany comedy (Romancing the Stone (1984), 1941 (1979)) and special effect vehicles (Who Framed Roger Rabbit (1988) and Back to the Future (1985)). His later films have become more serious, with the hugely successful Tom Hanks vehicle Forrest Gump (1994) and the Jodie Foster film Contact (1997), both critically acclaimed movies. Again, these films incorporate stunning effects. Robert has proved he can work a serious story around great effects.`
     }
 ];
+*/
 
 
 
@@ -809,23 +823,9 @@ const accessLogStream = fs.createWriteStream( // create a write stream
     { flags: 'a' } // path.join appends it to 'log.text'
 );
 
-app.use(morgan('combined', { stream: accessLogStream })); // enable morgan logging to 'log.txt'
-
-
-
-
-
-// setup User Authentication
-
-
-
-
-
-// setup JSON Parsing
-
-
-
-
+app.use
+    (morgan('combined', { stream: accessLogStream }) // enable morgan logging to 'log.txt'
+);
 
 // setup Static Files
 app.use(
@@ -836,22 +836,48 @@ app.use(
 
 
 
-// setup App Routing
-
 // CREATE - Allow new users to register
-app.post('/users', (req, res) => {
-    const newUser = req.body;
-
-    if (newUser.name) {
-        newUser.id = uuid.v4();
-        users.push(newUser);
-        res.status(201).json(newUser);
-    } else {
-        res.status(400).send('users need names')
-    }
+/* Expect req.body in this JSON format:
+{
+    id: Integer,
+    name: String,
+    password: String,
+    email: String,
+    birth_date: Date
+} */
+app.post('/users', async (req, res) => {
+    await Users.findOne({ name: req.body.name })
+        .then((user) => {
+            if (user) {
+                return res.status(400)
+                    .send(req.body.name + ' already exists');
+            } else {
+                Users
+                    .create({
+                        name: req.body.name,
+                        password: req.body.password,
+                        email: req.body.email,
+                        birth_date: req.body.birth_date
+                    })
+                    .then((user) => {
+                        res.status(201).json(user)
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        res.status(500)
+                            .send('Error: ' + error);
+                    });
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500)
+                .send('Error: ' + error);
+        });
 });
 
 // CREATE - Allow users to add a movie to their list of favorites
+/*
 app.post('/users/:id/:movieTitle', (req, res) => {
     const { id, movieTitle } = req.params;
 
@@ -863,55 +889,126 @@ app.post('/users/:id/:movieTitle', (req, res) => {
     } else {
         res.status(400).send('no such user');
     }
+}); */
+
+
+
+// READ - Return a list of All users
+app.get('/users', async (req, res) => {
+    await Users.find()
+        .then((users) => {
+            res.status(200)
+                .json(users);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500)
+                .send('Error: ' + err);
+        });
 });
 
-// READ - Greeting
-app.get('/', (req, res) => {
-    res.send('Welcome to myFlix!');
+// READ - Return a user by a name
+app.get('/users/:name', async (req, res) => {
+    await Users.findOne({ name: req.params.name })
+        .then((user) => {
+            res.status(200)
+                .json(user);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500)
+                .send('Error: ' + err);
+        });
 });
 
 // READ - Return a list of ALL movies to the user
-app.get('/movies', (req, res) => {
-    res.status(200).json(movies);
+app.get('/movies', async (req, res) => {
+    await Movies.find() // NOT WORKING!
+        .then((movies) => {
+            res.status(200)
+                .json(movies);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500)
+                .send('Error: ' + err);
+        });
 });
 
-// READ - Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
-app.get('/movies/:movieTitle', (req, res) => {
-    const { movieTitle } = req.params;
-    const movie = movies.find(movie => movie.Title === movieTitle);
-
-    if (movie) {
-        res.status(200).json(movie);
-    } else {
-        res.status(400).send('no such movie');
-    }
+// READ - Return data about a single movie by title to the user
+app.get('/movies/:title', async (req, res) => {
+    await Movies.findOne({ title: req.params.title }) // NOT WORKING!
+        .then((movie) => {
+            res.status(200)
+                .json(movie);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500)
+                .send('Error: ' + err);
+        });
 });
 
-// READ - Return data about a genre (description) by name/title (e.g., “Thriller”)
-app.get('/genres/:genreName', (req, res) => {
-    const { genreName } = req.params;
-    const genre = genres.find(genre => genre.Name === genreName);
-
-    if (genre) {
-        res.status(200).json(genre);
-    } else {
-        res.status(400).send('no such genre');
-    }
+// READ - Return a list of All genres
+app.get('/genres', async (req, res) => {
+    await Genres.find()
+        .then((genres) => {
+            res.status(200)
+                .json(genres);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500)
+                .send('Error: ' + err);
+        });
 });
 
-// READ - Return data about a director (bio, birth year, death year) by name
-app.get('/directors/:directorName', (req, res) => {
-    const { directorName } = req.params;
-    const director = directors.find(director => director.Name === directorName);
-
-    if (director) {
-        res.status(200).json(director);
-    } else {
-        res.status(400).send('no such director');
-    }
+// READ - Return data about a genre by name
+app.get('/genres/:name', async (req, res) => {
+    await Genres.findOne({ name: req.params.name })
+        .then((genre) => {
+            res.status(200)
+                .json(genre);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500)
+                .send('Error: ' + err);
+        });
 });
+
+// READ - Return a list of All directors
+app.get('/directors', async (req, res) => {
+    await Directors.find()
+        .then((directors) => {
+            res.status(200)
+                .json(directors);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500)
+                .send('Error: ' + err);
+        });
+});
+
+// READ - Return data about a director by name
+app.get('/directors/:name', async (req, res) => {
+    await Directors.findOne({ name: req.params.name })
+        .then((director) => {
+            res.status(200)
+                .json(director);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500)
+                .send('Error: ' + err);
+        });
+});
+
+
 
 // UPDATE - Allow users to update their user info (username)
+/*
 app.put('/users/:id', (req, res) => {
     const { id } = req.params;
     const updatedUser = req.body;
@@ -924,9 +1021,12 @@ app.put('/users/:id', (req, res) => {
     } else {
         res.status(400).send('no such user');
     }
-});
+}); */
+
+
 
 // DELETE - Allow users to remove a movie from their list of favorites
+/*
 app.delete('/users/:id/:movieTitle', (req, res) => {
     const { id, movieTitle } = req.params;
 
@@ -938,9 +1038,12 @@ app.delete('/users/:id/:movieTitle', (req, res) => {
     } else {
         res.status(400).send('no such user');
     }
-});
+}); */
+
+
 
 // DELETE - Allow existing users to deregister
+/*
 app.delete('/users/:id', (req, res) => {
     const { id } = req.params;
 
@@ -952,7 +1055,7 @@ app.delete('/users/:id', (req, res) => {
     } else {
         res.status(400).send('no such user');
     }
-});
+}); */
 
 
 
@@ -962,10 +1065,6 @@ app.delete('/users/:id', (req, res) => {
 app.listen(8080, () => {
     console.log('Your app is listening on port 8080.');
 });
-
-
-
-
 
 // setup Error Handling
 app.use((err, req, res, next) => {
