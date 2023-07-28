@@ -24,7 +24,7 @@ let movieSchema = mongoose.Schema({
         ref: 'Genre',
         required: true
     },
-    directors: {
+    director: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Director',
         required: true
