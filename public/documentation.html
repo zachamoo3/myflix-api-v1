@@ -24,151 +24,239 @@
                 <td>URL</td>
                 <td>HTTP Method</td>
                 <td>Path Variables</td>
-                <td>Request body data format</td>
-                <td>Response body data format</td>
+                <td>Request body data format in JSON</td>
+                <td>Response body data format in JSON</td>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Return a list of ALL movies to the user</td>
-                <td>/movies</td>
-                <td>GET / Read</td>
-                <td>None</td>
-                <td>None</td>
-                <td>A JSON object holding data about all movies</td>
-            </tr>
-            <tr>
-                <td>Return data (description, genre, director, image URL, whether it is featured or not) about a single
-                    movie by title to the user</td>
-                <td>/movies/:movieTitle</td>
-                <td>GET / Read</td>
-                <td>[movieTitle]</td>
-                <td>None</td>
-                <td>
-                    {
-                        "Title": "movieTitle"
-                        "Year": "YYYY"
-                        "Image": "URL leading to an image of the movie cover"
-                        "Description": "Brief description of the movie"
-                        "Directors":
-                            [
-                                {
-                                    "Name": "firstName lastName",
-                                    "Birth": "YYYY",
-                                    "Death": "YYYY",
-                                    "Bio": "Biographical description of director"
-                                },
-                                {
-                                    "Name": "firstName lastName",
-                                    "Birth": "YYYY",
-                                    "Death": "YYYY",
-                                    "Bio": "Biographical description of director"
-                                }
-                            ]
-                        "Genres":
-                            [
-                                {
-                                    "Name": "genreName",
-                                    "Description": "Description of genreName"
-                                },
-                                {
-                                    "Name": "genreName",
-                                    "Description": "Description of genreName"
-                                }
-                            ]
-                    }
-                </td>
-            </tr>
-            <tr>
-                <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-                <td>/genres/:genreName</td>
-                <td>GET / Read</td>
-                <td>[genreName]</td>
-                <td>None</td>
-                <td>
-                    {
-                        "Name": "genreName",
-                        "Description": "Description of genreName"
-                    }
-                </td>
-            </tr>
-            <tr>
-                <td>Return data about a director (bio, birth year, death year) by name</td>
-                <td>/directors/:directorName</td>
-                <td>GET / Read</td>
-                <td>[directorName]</td>
-                <td>None</td>
-                <td>
-                    {
-                        "Name": "firstName lastName",
-                        "Birth": "YYYY",
-                        "Death": "YYYY",
-                        "Bio": "Biographical description of director"
-                    }
-                </td>
-            </tr>
-            <tr>
                 <td>Allow new users to register</td>
                 <td>/users</td>
-                <td>POST / Create</td>
+                <td>POST / CREATE</td>
                 <td>None</td>
                 <td>
                     {
-                        "id": "",
-                        "name": "firstName lastName",
-                        "favoriteMovies": [array of favorite movies]
+                        "name": "JimBob",
+                        "password": "abcd1234",
+                        "email": "jimbobjoe@example.com"
                     }
                 </td>
                 <td>
                     {
-                        "id": "unique randomly generated identification",
-                        "name": "firstName lastName",
-                        "favoriteMovies": [array of favorite movies]
-                    }
-                </td>
-            </tr>
-            <tr>
-                <td>Allow users to update their user info (username)</td>
-                <td>/users/:id</td>
-                <td>PUT / Update</td>
-                <td>[id]</td>
-                <td>
-                    {
-                        "name": "newUserName"
-                    }
-                </td>
-                <td>
-                    {
-                        "id": "usersID",
-                        "name": "newUserName",
-                        "favoriteMovies": [array of favorite movies]
+                        "name": "JimBob",
+                        "password": "abcd1234",
+                        "email": "jimbobjoe@example.com",
+                        "favorite_movies": [],
+                        "_id": "64c3f820c9127aef767e7524",
+                        "__v": 0
                     }
                 </td>
             </tr>
             <tr>
                 <td>Allow users to add a movie to their list of favorites</td>
-                <td>/users/:id/:movieTitle</td>
-                <td>POST / Create</td>
-                <td>[id], [movieTitle]</td>
+                <td>/users/:name/movies/:MovieID</td>
+                <td>POST / CREATE</td>
+                <td>
+                    name: JimBob
+                    movieID: 64b9a8b924b37d0184d2b5a7
+                </td>
                 <td>None</td>
-                <td>A text message indicating that movieTitle has been added to the users favoriteMovies</td>
+                <td>
+                    {
+                        "_id": "64c3f820c9127aef767e7524",
+                        "name": "JimBob",
+                        "password": "abcd1234",
+                        "email": "jimbobjoe@example.com",
+                        "favorite_movies": [
+                            {
+                                "_id": "64b9a8b924b37d0184d2b5a7",
+                                "title": "Iron Man"
+                            }
+                        ],
+                        "__v": 0
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>Return a list of All users</td>
+                <td>/users</td>
+                <td>GET / READ</td>
+                <td>None</td>
+                <td>None</td>
+                <td>Returns a list of an array of all users</td>
+            </tr>
+            <tr>
+                <td>Return a user by a name</td>
+                <td>/users/:name</td>
+                <td>GET / READ</td>
+                <td>
+                    name: JimBob
+                </td>
+                <td>None</td>
+                <td>
+                    {
+                        "_id": "64c3f820c9127aef767e7524",
+                        "name": "JimBob",
+                        "password": "abcd1234",
+                        "email": "jimbobjoe@example.com",
+                        "favorite_movies": [
+                            {
+                                "_id": "64b9a8b924b37d0184d2b5a7",
+                                "title": "Iron Man"
+                            }
+                        ],
+                        "__v": 0
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>Return a list of All movies to the user</td>
+                <td>/movies</td>
+                <td>GET / READ</td>
+                <td>None</td>
+                <td>None</td>
+                <td>Returns an array of All movies</td>
+            </tr>
+            <tr>
+                <td>Return data about a single movie by title to the user</td>
+                <td>/movies/:title</td>
+                <td>GET / READ</td>
+                <td>
+                    title: Iron Man
+                </td>
+                <td>None</td>
+                <td>
+                    {
+                        "actors": [],
+                        "_id": "64b9a8b924b37d0184d2b5a7",
+                        "title": "Iron Man",
+                        "release_date": "2008-05-02T00:00:00.000Z",
+                        "rating": "PG-13",
+                        "genre": {
+                            "_id": "64b98b5924b37d0184d2b586",
+                            "name": "action"
+                        },
+                        "director": {
+                            "_id": "64b99a1224b37d0184d2b598",
+                            "name": "Jon Favreau"
+                        },
+                        "image_url": "https://upload.wikimedia.org/wikipedia/en/0/02/Iron_Man_%282008_film%29_poster.jpg",
+                        "description": "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil."
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>Return a list of All genres</td>
+                <td>/genres</td>
+                <td>GET / READ</td>
+                <td>None</td>
+                <td>None</td>
+                <td>Returns an array of all genres</td>
+            </tr>
+            <tr>
+                <td>Return data about a genre by name</td>
+                <td>/genres/:name</td>
+                <td>GET / READ</td>
+                <td>
+                    name: action
+                </td>
+                <td>None</td>
+                <td>
+                    {
+                        "_id": "64b98b5924b37d0184d2b586",
+                        "name": "action",
+                        "description": "This type of movie generally involves a lot of action scenes including violence, like fighting or shoot-outs (with weapons), car chases and often lots of explosions. Some subgenres considered action movies include: disaster films, martial arts films, spy films and superhero films."
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>Return a list of All directors</td>
+                <td>/directors</td>
+                <td>GET / READ</td>
+                <td>None</td>
+                <td>None</td>
+                <td>Returns an array of all directors</td>
+            </tr>
+            <tr>
+                <td>Return data about a director by name</td>
+                <td>/directors/:name</td>
+                <td>GET / READ</td>
+                <td>
+                    name: Jon Favreau
+                </td>
+                <td>None</td>
+                <td>
+                    {
+                        "_id": "64b99a1224b37d0184d2b598",
+                        "name": "Jon Favreau",
+                        "birth_year": "1966",
+                        "bio": "Initially an indie film favorite, actor Jon Favreau has progressed to strong mainstream visibility into the millennium and, after nearly two decades in the business, is still enjoying character stardom as well as earning notice as a writer/producer/director."
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>Allow users to update their info by username</td>
+                <td>/users/:name</td>
+                <td>PUT / UPDATE</td>
+                <td>
+                    name: JimBob
+                </td>
+                <td>
+                    {
+                        "birth_date": "1945-01-01"
+                    }
+                </td>
+                <td>
+                    {
+                        "_id": "64c3f820c9127aef767e7524",
+                        "name": "JimBob",
+                        "password": "abcd1234",
+                        "email": "jimbobjoe@example.com",
+                        "favorite_movies": [
+                            {
+                                "_id": "64b9a8b924b37d0184d2b5a7",
+                                "title": "Iron Man"
+                            }
+                        ],
+                        "__v": 0,
+                        "birth_date": "1945-01-01T00:00:00.000Z"
+                    }
+                </td>
             </tr>
             <tr>
                 <td>Allow users to remove a movie from their list of favorites</td>
-                <td>/users/:id/:movieTitle</td>
-                <td>DELETE / Delete</td>
-                <td>[id], [movieTitle]</td>
-                <td>none</td>
-                <td>A text message indicating that movieTitle has been removed from the users favoriteMovies</td>
+                <td>/users/:name/movies/:movieID</td>
+                <td>DELETE / DELETE</td>
+                <td>
+                    name: JimBob
+                    MovieID: 64b9a8b924b37d0184d2b5a7
+                </td>
+                <td>None</td>
+                <td>
+                    {
+                        "_id": "64c3f820c9127aef767e7524",
+                        "name": "JimBob",
+                        "password": "abcd1234",
+                        "email": "jimbobjoe@example.com",
+                        "favorite_movies": [],
+                        "__v": 0,
+                        "birth_date": "1945-01-01T00:00:00.000Z"
+                    }
+                </td>
             </tr>
             <tr>
                 <td>Allow existing users to deregister</td>
-                <td>/users/:id</td>
-                <td>DELETE / Delete</td>
-                <td>[id]</td>
-                <td>none</td>
-                <td>A text message indicating that the user has been deleted</td>
+                <td>/users/:name</td>
+                <td>DELETE / DELETE</td>
+                <td>
+                    name: JimBob
+                </td>
+                <td>None</td>
+                <td>
+                    JimBob was deleted.
+                </td>
             </tr>
+
         </tbody>
     </table>
 
