@@ -22,8 +22,9 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB', {
     useUnifiedTopology: true
 });
 
-
-
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
 
 // setup Logging
 const accessLogStream = fs.createWriteStream( // create a write stream
@@ -31,9 +32,9 @@ const accessLogStream = fs.createWriteStream( // create a write stream
     { flags: 'a' } // path.join appends it to 'log.text'
 );
 
-app.use
-    (morgan('combined', { stream: accessLogStream }) // enable morgan logging to 'log.txt'
-    );
+app.use(
+    morgan('combined', { stream: accessLogStream }) // enable morgan logging to 'log.txt'
+);
 
 // setup Static Files
 app.use(
