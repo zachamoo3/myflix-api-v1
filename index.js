@@ -136,7 +136,7 @@ app.get('/users/:name', async (req, res) => {
 });
 
 // READ - Return a list of ALL movies to the user
-app.get('/movies', async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
         .populate('genre', 'name')
         .populate('director', 'name')
