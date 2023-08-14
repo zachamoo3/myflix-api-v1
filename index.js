@@ -23,6 +23,9 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB', {
     useUnifiedTopology: true
 });
 
+const cors = require('cors');
+app.use(cors());
+
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
@@ -230,12 +233,18 @@ app.get('/directors/:name', async (req, res) => {
 // UPDATE - Allow users to update their user info by username
 /* We'll expect JSON in this format
 {
-    name: String, (required)
+    username: String, (required)
     password: String, (required)
     email: String, (required)
     birth_date: Date
 } */
-app.put('/users/:username', async (req, res) => {
+app.put('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    // Condition to check added here
+    if (req.user.username !== req.params.username) {
+        return res.status(400)
+            .send('Permission denied');
+    }
+    // Condition ends
     await Users.findOneAndUpdate({ username: req.params.username },
         {
             $set:
