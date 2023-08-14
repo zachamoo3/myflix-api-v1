@@ -47,21 +47,21 @@ app.use(
 // CREATE - Allow new users to register
 /* Expect req.body in this JSON format:
 {
-    name: String, (required)
+    username: String, (required)
     password: String, (required)
     email: String, (required)
     birth_date: Date
 } */
 app.post('/users', async (req, res) => {
-    await Users.findOne({ name: req.body.name })
+    await Users.findOne({ username: req.body.username })
         .then((user) => {
             if (user) {
                 return res.status(400)
-                    .send(req.body.name + ' already exists');
+                    .send(req.body.username + ' already exists');
             } else {
                 Users
                     .create({
-                        name: req.body.name,
+                        username: req.body.username,
                         password: req.body.password,
                         email: req.body.email,
                         birth_date: req.body.birth_date
@@ -84,8 +84,8 @@ app.post('/users', async (req, res) => {
 });
 
 // CREATE - Allow users to add a movie to their list of favorites
-app.post('/users/:name/movies/:MovieID', async (req, res) => {
-    await Users.findOneAndUpdate({ name: req.params.name },
+app.post('/users/:username/movies/:MovieID', async (req, res) => {
+    await Users.findOneAndUpdate({ username: req.params.username },
         {
             $push: { favorite_movies: req.params.MovieID }
         },
@@ -120,9 +120,9 @@ app.get('/users', async (req, res) => {
         });
 });
 
-// READ - Return a user by a name
-app.get('/users/:name', async (req, res) => {
-    await Users.findOne({ name: req.params.name })
+// READ - Return a user by a username
+app.get('/users/:username', async (req, res) => {
+    await Users.findOne({ username: req.params.username })
         .populate('favorite_movies', 'title')
         .then((user) => {
             res.status(200)
@@ -234,12 +234,12 @@ app.get('/directors/:name', async (req, res) => {
     email: String, (required)
     birth_date: Date
 } */
-app.put('/users/:name', async (req, res) => {
-    await Users.findOneAndUpdate({ name: req.params.name },
+app.put('/users/:username', async (req, res) => {
+    await Users.findOneAndUpdate({ username: req.params.username },
         {
             $set:
             {
-                name: req.body.name,
+                username: req.body.username,
                 password: req.body.password,
                 email: req.body.email,
                 birth_date: req.body.birth_date
@@ -262,8 +262,8 @@ app.put('/users/:name', async (req, res) => {
 
 
 // DELETE - Allow users to remove a movie from their list of favorites
-app.delete('/users/:name/movies/:MovieID', async (req, res) => {
-    await Users.findOneAndUpdate({ name: req.params.name },
+app.delete('/users/:username/movies/:MovieID', async (req, res) => {
+    await Users.findOneAndUpdate({ username: req.params.username },
         {
             $pull: { favorite_movies: req.params.MovieID }
         },
@@ -281,15 +281,15 @@ app.delete('/users/:name/movies/:MovieID', async (req, res) => {
 });
 
 // DELETE - Allow existing users to deregister
-app.delete('/users/:name', async (req, res) => {
-    await Users.findOneAndRemove({ name: req.params.name })
+app.delete('/users/:username', async (req, res) => {
+    await Users.findOneAndRemove({ username: req.params.username })
         .then((user) => {
             if (!user) {
                 res.status(400)
-                    .send(req.params.name + ' was not found');
+                    .send(req.params.username + ' was not found');
             } else {
                 res.status(200)
-                    .send(req.params.name + ' was deleted.');
+                    .send(req.params.username + ' was deleted.');
             }
         })
         .catch((err) => {

@@ -36,14 +36,14 @@
                 <td>None</td>
                 <td>
                     {
-                        "name": "JimBob",
+                        "username": "JimBob",
                         "password": "abcd1234",
                         "email": "jimbobjoe@example.com"
                     }
                 </td>
                 <td>
                     {
-                        "name": "JimBob",
+                        "username": "JimBob",
                         "password": "abcd1234",
                         "email": "jimbobjoe@example.com",
                         "favorite_movies": [],
@@ -54,17 +54,17 @@
             </tr>
             <tr>
                 <td>Allow users to add a movie to their list of favorites</td>
-                <td>/users/:name/movies/:MovieID</td>
+                <td>/users/:username/movies/:MovieID</td>
                 <td>POST / CREATE</td>
                 <td>
-                    name: JimBob
+                    username: JimBob
                     movieID: 64b9a8b924b37d0184d2b5a7
                 </td>
                 <td>None</td>
                 <td>
                     {
                         "_id": "64c3f820c9127aef767e7524",
-                        "name": "JimBob",
+                        "username": "JimBob",
                         "password": "abcd1234",
                         "email": "jimbobjoe@example.com",
                         "favorite_movies": [
@@ -86,17 +86,17 @@
                 <td>Returns a list of an array of all users</td>
             </tr>
             <tr>
-                <td>Return a user by a name</td>
-                <td>/users/:name</td>
+                <td>Return a user by a username</td>
+                <td>/users/:username</td>
                 <td>GET / READ</td>
                 <td>
-                    name: JimBob
+                    username: JimBob
                 </td>
                 <td>None</td>
                 <td>
                     {
                         "_id": "64c3f820c9127aef767e7524",
-                        "name": "JimBob",
+                        "username": "JimBob",
                         "password": "abcd1234",
                         "email": "jimbobjoe@example.com",
                         "favorite_movies": [
@@ -196,10 +196,10 @@
             </tr>
             <tr>
                 <td>Allow users to update their info by username</td>
-                <td>/users/:name</td>
+                <td>/users/:username</td>
                 <td>PUT / UPDATE</td>
                 <td>
-                    name: JimBob
+                    username: JimBob
                 </td>
                 <td>
                     {
@@ -209,7 +209,7 @@
                 <td>
                     {
                         "_id": "64c3f820c9127aef767e7524",
-                        "name": "JimBob",
+                        "username": "JimBob",
                         "password": "abcd1234",
                         "email": "jimbobjoe@example.com",
                         "favorite_movies": [
@@ -225,17 +225,17 @@
             </tr>
             <tr>
                 <td>Allow users to remove a movie from their list of favorites</td>
-                <td>/users/:name/movies/:movieID</td>
+                <td>/users/:username/movies/:movieID</td>
                 <td>DELETE / DELETE</td>
                 <td>
-                    name: JimBob
+                    username: JimBob
                     MovieID: 64b9a8b924b37d0184d2b5a7
                 </td>
                 <td>None</td>
                 <td>
                     {
                         "_id": "64c3f820c9127aef767e7524",
-                        "name": "JimBob",
+                        "username": "JimBob",
                         "password": "abcd1234",
                         "email": "jimbobjoe@example.com",
                         "favorite_movies": [],
@@ -246,10 +246,10 @@
             </tr>
             <tr>
                 <td>Allow existing users to deregister</td>
-                <td>/users/:name</td>
+                <td>/users/:username</td>
                 <td>DELETE / DELETE</td>
                 <td>
-                    name: JimBob
+                    username: JimBob
                 </td>
                 <td>None</td>
                 <td>
