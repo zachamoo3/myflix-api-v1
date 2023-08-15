@@ -227,7 +227,7 @@ app.get('/directors', passport.authenticate('jwt', { session: false }), async (r
 
 // READ - Return data about a director by name
 app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    await Directors.findOne({ name: req.params.Name })
+    await Directors.findOne({ Name: req.params.Name })
         .then((director) => {
             res.status(200)
                 .json(director);
