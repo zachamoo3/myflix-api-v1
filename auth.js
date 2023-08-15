@@ -3,7 +3,7 @@ const jwtSecret = 'your_jwt_secret'; // This has to be the same key used in the 
 const jwt = require('jsonwebtoken'),
     passport = require('passport');
 
-require('./passport'); //Your local passport file
+require('./passport.js'); //Your local passport file
 
 
 let generateJWTToken = (user) => {
@@ -17,11 +17,18 @@ let generateJWTToken = (user) => {
 
 /* POST login */
 module.exports = (router) => {
-    router.post('/login', (req, res) => {
+    router.post('/users/login', (req, res) => {
         passport.authenticate('local', { session: false }, (error, user, info) => {
-            if (error || !user) {
+            if (error) {
+                console.log(error);
                 return res.status(400).json({
-                    message: 'Something is not right',
+                    message: 'Error. Something is not right.',
+                    user: user
+                });
+            }
+            if (!user) {
+                return res.status(400).json({
+                    message: 'Error. No user.',
                     user: user
                 });
             }
