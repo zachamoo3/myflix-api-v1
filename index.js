@@ -69,18 +69,18 @@ app.use(
     birth_date: Date
 } */
 app.post('/users', async (req, res) => {
-    await Users.findOne({ username: req.body.username })
+    await Users.findOne({ Username: req.body.Username })
         .then((user) => {
             if (user) {
                 return res.status(400)
-                    .send(req.body.username + ' already exists');
+                    .send(req.body.Username + ' already exists');
             } else {
                 Users
                     .create({
-                        username: req.body.username,
-                        password: req.body.password,
-                        email: req.body.email,
-                        birth_date: req.body.birth_date
+                        Username: req.body.Username,
+                        Password: req.body.Password,
+                        Email: req.body.Email,
+                        Birth_Date: req.body.Birth_Date
                     })
                     .then((user) => {
                         res.status(201).json(user)
@@ -100,13 +100,13 @@ app.post('/users', async (req, res) => {
 });
 
 // CREATE - Allow users to add a movie to their list of favorites
-app.post('/users/:username/movies/:MovieID', async (req, res) => {
-    await Users.findOneAndUpdate({ username: req.params.username },
+app.post('/users/:Username/movies/:MovieID', async (req, res) => {
+    await Users.findOneAndUpdate({ Username: req.params.Username },
         {
-            $push: { favorite_movies: req.params.MovieID }
+            $push: { Favorite_Movies: req.params.MovieID }
         },
         { new: true }) // this makes sure that the updated document is returned
-        .populate('favorite_movies', 'title')
+        .populate('Favorite_Movies', 'Title')
         .then((updatedUser) => {
             res.status(201)
                 .json(updatedUser);
@@ -124,7 +124,7 @@ app.post('/users/:username/movies/:MovieID', async (req, res) => {
 // READ - Return a list of All users
 app.get('/users', async (req, res) => {
     await Users.find()
-        .populate('favorite_movies', 'title')
+        .populate('Favorite_Movies', 'Title')
         .then((users) => {
             res.status(200)
                 .json(users);
@@ -137,9 +137,9 @@ app.get('/users', async (req, res) => {
 });
 
 // READ - Return a user by a username
-app.get('/users/:username', async (req, res) => {
-    await Users.findOne({ username: req.params.username })
-        .populate('favorite_movies', 'title')
+app.get('/users/:Username', async (req, res) => {
+    await Users.findOne({ Username: req.params.Username })
+        .populate('Favorite_Movies', 'Title')
         .then((user) => {
             res.status(200)
                 .json(user);
@@ -154,8 +154,8 @@ app.get('/users/:username', async (req, res) => {
 // READ - Return a list of ALL movies to the user
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
-        .populate('genre', 'name')
-        .populate('director', 'name')
+        .populate('Genre', 'Name')
+        .populate('Director', 'Name')
         .then((movies) => {
             res.status(200)
                 .json(movies);
@@ -168,10 +168,10 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
 });
 
 // READ - Return data about a single movie by title to the user
-app.get('/movies/:title', async (req, res) => {
-    await Movies.findOne({ title: req.params.title })
-        .populate('genre', 'name')
-        .populate('director', 'name')
+app.get('/movies/:Title', async (req, res) => {
+    await Movies.findOne({ Title: req.params.Title })
+        .populate('Genre', 'Name')
+        .populate('Director', 'Name')
         .then((movie) => {
             res.status(200)
                 .json(movie);
@@ -198,8 +198,8 @@ app.get('/genres', async (req, res) => {
 });
 
 // READ - Return data about a genre by name
-app.get('/genres/:name', async (req, res) => {
-    await Genres.findOne({ name: req.params.name })
+app.get('/genres/:Name', async (req, res) => {
+    await Genres.findOne({ Name: req.params.Name })
         .then((genre) => {
             res.status(200)
                 .json(genre);
@@ -226,8 +226,8 @@ app.get('/directors', async (req, res) => {
 });
 
 // READ - Return data about a director by name
-app.get('/directors/:name', async (req, res) => {
-    await Directors.findOne({ name: req.params.name })
+app.get('/directors/:Name', async (req, res) => {
+    await Directors.findOne({ name: req.params.Name })
         .then((director) => {
             res.status(200)
                 .json(director);
@@ -250,25 +250,25 @@ app.get('/directors/:name', async (req, res) => {
     email: String, (required)
     birth_date: Date
 } */
-app.put('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     // Condition to check added here
-    if (req.user.username !== req.params.username) {
+    if (req.user.Username !== req.params.Username) {
         return res.status(400)
             .send('Permission denied');
     }
     // Condition ends
-    await Users.findOneAndUpdate({ username: req.params.username },
+    await Users.findOneAndUpdate({ Username: req.params.Username },
         {
             $set:
             {
-                username: req.body.username,
-                password: req.body.password,
-                email: req.body.email,
-                birth_date: req.body.birth_date
+                Username: req.body.Username,
+                Password: req.body.Password,
+                Email: req.body.Email,
+                Birth_Date: req.body.Birth_Date
             }
         },
         { new: true }) // this makes sure that the updated document is returned
-        .populate('favorite_movies', 'title')
+        .populate('Favorite_Movies', 'Title')
         .then((updatedUser) => {
             res.status(201)
                 .json(updatedUser);
@@ -284,13 +284,13 @@ app.put('/users/:username', passport.authenticate('jwt', { session: false }), as
 
 
 // DELETE - Allow users to remove a movie from their list of favorites
-app.delete('/users/:username/movies/:MovieID', async (req, res) => {
-    await Users.findOneAndUpdate({ username: req.params.username },
+app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
+    await Users.findOneAndUpdate({ Username: req.params.Username },
         {
-            $pull: { favorite_movies: req.params.MovieID }
+            $pull: { Favorite_Movies: req.params.MovieID }
         },
         { new: true }) // this makes sure that the updated document is returned
-        .populate('favorite_movies', 'title')
+        .populate('Favorite_Movies', 'Title')
         .then((updatedUser) => {
             res.status(200)
                 .json(updatedUser);
@@ -303,15 +303,15 @@ app.delete('/users/:username/movies/:MovieID', async (req, res) => {
 });
 
 // DELETE - Allow existing users to deregister
-app.delete('/users/:username', async (req, res) => {
-    await Users.findOneAndRemove({ username: req.params.username })
+app.delete('/users/:Username', async (req, res) => {
+    await Users.findOneAndRemove({ Username: req.params.Username })
         .then((user) => {
             if (!user) {
                 res.status(400)
-                    .send(req.params.username + ' was not found');
+                    .send(req.params.Username + ' was not found');
             } else {
                 res.status(200)
-                    .send(req.params.username + ' was deleted.');
+                    .send(req.params.Username + ' was deleted.');
             }
         })
         .catch((err) => {

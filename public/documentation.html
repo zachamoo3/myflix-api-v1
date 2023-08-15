@@ -36,17 +36,17 @@
                 <td>None</td>
                 <td>
                     {
-                        "username": "JimBob",
-                        "password": "abcd1234",
-                        "email": "jimbobjoe@example.com"
+                        "Username": "JimBob",
+                        "Password": "abcd1234",
+                        "Email": "jimbobjoe@example.com"
                     }
                 </td>
                 <td>
                     {
-                        "username": "JimBob",
-                        "password": "abcd1234",
-                        "email": "jimbobjoe@example.com",
-                        "favorite_movies": [],
+                        "Username": "JimBob",
+                        "Password": "abcd1234",
+                        "Email": "jimbobjoe@example.com",
+                        "Favorite_Movies": [],
                         "_id": "64c3f820c9127aef767e7524",
                         "__v": 0
                     }
@@ -54,23 +54,23 @@
             </tr>
             <tr>
                 <td>Allow users to add a movie to their list of favorites</td>
-                <td>/users/:username/movies/:MovieID</td>
+                <td>/users/:Username/movies/:MovieID</td>
                 <td>POST / CREATE</td>
                 <td>
-                    username: JimBob
-                    movieID: 64b9a8b924b37d0184d2b5a7
+                    Username: JimBob
+                    MovieID: 64b9a8b924b37d0184d2b5a7
                 </td>
                 <td>None</td>
                 <td>
                     {
                         "_id": "64c3f820c9127aef767e7524",
-                        "username": "JimBob",
-                        "password": "abcd1234",
-                        "email": "jimbobjoe@example.com",
-                        "favorite_movies": [
+                        "Username": "JimBob",
+                        "Password": "abcd1234",
+                        "Email": "jimbobjoe@example.com",
+                        "Favorite_Movies": [
                             {
                                 "_id": "64b9a8b924b37d0184d2b5a7",
-                                "title": "Iron Man"
+                                "Title": "Iron Man"
                             }
                         ],
                         "__v": 0
@@ -87,22 +87,22 @@
             </tr>
             <tr>
                 <td>Return a user by a username</td>
-                <td>/users/:username</td>
+                <td>/users/:Username</td>
                 <td>GET / READ</td>
                 <td>
-                    username: JimBob
+                    Username: JimBob
                 </td>
                 <td>None</td>
                 <td>
                     {
                         "_id": "64c3f820c9127aef767e7524",
-                        "username": "JimBob",
-                        "password": "abcd1234",
-                        "email": "jimbobjoe@example.com",
-                        "favorite_movies": [
+                        "Username": "JimBob",
+                        "Password": "abcd1234",
+                        "Email": "jimbobjoe@example.com",
+                        "Favorite_Movies": [
                             {
                                 "_id": "64b9a8b924b37d0184d2b5a7",
-                                "title": "Iron Man"
+                                "Title": "Iron Man"
                             }
                         ],
                         "__v": 0
@@ -119,29 +119,29 @@
             </tr>
             <tr>
                 <td>Return data about a single movie by title to the user</td>
-                <td>/movies/:title</td>
+                <td>/movies/:Title</td>
                 <td>GET / READ</td>
                 <td>
-                    title: Iron Man
+                    Title: Iron Man
                 </td>
                 <td>None</td>
                 <td>
                     {
-                        "actors": [],
+                        "Actors": [],
                         "_id": "64b9a8b924b37d0184d2b5a7",
-                        "title": "Iron Man",
-                        "release_date": "2008-05-02T00:00:00.000Z",
-                        "rating": "PG-13",
-                        "genre": {
+                        "Title": "Iron Man",
+                        "Release_date": "2008-05-02T00:00:00.000Z",
+                        "Rating": "PG-13",
+                        "Genre": {
                             "_id": "64b98b5924b37d0184d2b586",
-                            "name": "action"
+                            "Name": "Action"
                         },
-                        "director": {
+                        "Director": {
                             "_id": "64b99a1224b37d0184d2b598",
-                            "name": "Jon Favreau"
+                            "Name": "Jon Favreau"
                         },
-                        "image_url": "https://upload.wikimedia.org/wikipedia/en/0/02/Iron_Man_%282008_film%29_poster.jpg",
-                        "description": "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil."
+                        "Image_Url": "https://upload.wikimedia.org/wikipedia/en/0/02/Iron_Man_%282008_film%29_poster.jpg",
+                        "Description": "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil."
                     }
                 </td>
             </tr>
@@ -155,17 +155,17 @@
             </tr>
             <tr>
                 <td>Return data about a genre by name</td>
-                <td>/genres/:name</td>
+                <td>/genres/:Name</td>
                 <td>GET / READ</td>
                 <td>
-                    name: action
+                    Name: Action
                 </td>
                 <td>None</td>
                 <td>
                     {
                         "_id": "64b98b5924b37d0184d2b586",
-                        "name": "action",
-                        "description": "This type of movie generally involves a lot of action scenes including violence, like fighting or shoot-outs (with weapons), car chases and often lots of explosions. Some subgenres considered action movies include: disaster films, martial arts films, spy films and superhero films."
+                        "Name": "Action",
+                        "Description": "This type of movie generally involves a lot of action scenes including violence, like fighting or shoot-outs (with weapons), car chases and often lots of explosions. Some subgenres considered action movies include: disaster films, martial arts films, spy films and superhero films."
                     }
                 </td>
             </tr>
@@ -179,77 +179,77 @@
             </tr>
             <tr>
                 <td>Return data about a director by name</td>
-                <td>/directors/:name</td>
+                <td>/directors/:Name</td>
                 <td>GET / READ</td>
                 <td>
-                    name: Jon Favreau
+                    Name: Jon Favreau
                 </td>
                 <td>None</td>
                 <td>
                     {
                         "_id": "64b99a1224b37d0184d2b598",
-                        "name": "Jon Favreau",
-                        "birth_year": "1966",
-                        "bio": "Initially an indie film favorite, actor Jon Favreau has progressed to strong mainstream visibility into the millennium and, after nearly two decades in the business, is still enjoying character stardom as well as earning notice as a writer/producer/director."
+                        "Name": "Jon Favreau",
+                        "Birth_Year": "1966",
+                        "Bio": "Initially an indie film favorite, actor Jon Favreau has progressed to strong mainstream visibility into the millennium and, after nearly two decades in the business, is still enjoying character stardom as well as earning notice as a writer/producer/director."
                     }
                 </td>
             </tr>
             <tr>
                 <td>Allow users to update their info by username</td>
-                <td>/users/:username</td>
+                <td>/users/:Username</td>
                 <td>PUT / UPDATE</td>
                 <td>
-                    username: JimBob
+                    Username: JimBob
                 </td>
                 <td>
                     {
-                        "birth_date": "1945-01-01"
+                        "Birth_Date": "1945-01-01"
                     }
                 </td>
                 <td>
                     {
                         "_id": "64c3f820c9127aef767e7524",
-                        "username": "JimBob",
-                        "password": "abcd1234",
-                        "email": "jimbobjoe@example.com",
-                        "favorite_movies": [
+                        "Username": "JimBob",
+                        "Password": "abcd1234",
+                        "Email": "jimbobjoe@example.com",
+                        "Favorite_Movies": [
                             {
                                 "_id": "64b9a8b924b37d0184d2b5a7",
-                                "title": "Iron Man"
+                                "Title": "Iron Man"
                             }
                         ],
                         "__v": 0,
-                        "birth_date": "1945-01-01T00:00:00.000Z"
+                        "Birth_Date": "1945-01-01T00:00:00.000Z"
                     }
                 </td>
             </tr>
             <tr>
                 <td>Allow users to remove a movie from their list of favorites</td>
-                <td>/users/:username/movies/:movieID</td>
+                <td>/users/:Username/movies/:MovieID</td>
                 <td>DELETE / DELETE</td>
                 <td>
-                    username: JimBob
+                    Username: JimBob
                     MovieID: 64b9a8b924b37d0184d2b5a7
                 </td>
                 <td>None</td>
                 <td>
                     {
                         "_id": "64c3f820c9127aef767e7524",
-                        "username": "JimBob",
-                        "password": "abcd1234",
-                        "email": "jimbobjoe@example.com",
-                        "favorite_movies": [],
+                        "Username": "JimBob",
+                        "Password": "abcd1234",
+                        "Email": "jimbobjoe@example.com",
+                        "Favorite_Movies": [],
                         "__v": 0,
-                        "birth_date": "1945-01-01T00:00:00.000Z"
+                        "Birth_Date": "1945-01-01T00:00:00.000Z"
                     }
                 </td>
             </tr>
             <tr>
                 <td>Allow existing users to deregister</td>
-                <td>/users/:username</td>
+                <td>/users/:Username</td>
                 <td>DELETE / DELETE</td>
                 <td>
-                    username: JimBob
+                    Username: JimBob
                 </td>
                 <td>None</td>
                 <td>
