@@ -14,7 +14,7 @@ Links to project.
 
 Project dependencies.
     Languages Used:
-        JS,
+        JavaScript,
         JSON,
         Node.js,
         HTML.
