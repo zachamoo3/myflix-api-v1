@@ -47,8 +47,8 @@ require('./passport.js');
 
 // Connect to database on MonoDB Atlas
 mongoose.connect(process.env.CONNECTION_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 });
 
 // setup Logging
