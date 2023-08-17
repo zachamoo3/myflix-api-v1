@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', '*'];
 
 app.use(cors({
     origin: (origin, callback) => {
@@ -305,10 +305,10 @@ app.get('/directors/:Name',
 // UPDATE - Allow users to update their user info by username
 /* We'll expect JSON in this format
 {
-    username: String, (required)
-    password: String, (required)
-    email: String, (required)
-    birth_date: Date
+    Username: String, (required)
+    Password: String, (required)
+    Email: String, (required)
+    Birth_Date: Date
 } */
 app.put('/users/:Username',
     passport.authenticate('jwt', { session: false }),
