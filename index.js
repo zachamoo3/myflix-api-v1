@@ -195,7 +195,7 @@ app.get('/users/:Username',
 
 // READ - Return a list of ALL movies to the user
 app.get('/movies',
-    passport.authenticate('jwt', { session: false }),
+    // passport.authenticate('jwt', { session: false }),
     async (req, res) => {
         await Movies.find()
             .populate('Genre', 'Name')
@@ -233,7 +233,7 @@ app.get('/movies/:Title',
 
 // READ - Return a list of All genres
 app.get('/genres',
-    passport.authenticate('jwt', { session: false }),
+    // passport.authenticate('jwt', { session: false }),
     async (req, res) => {
         await Genres.find()
             .then((genres) => {
@@ -267,7 +267,7 @@ app.get('/genres/:Name',
 
 // READ - Return a list of All directors
 app.get('/directors',
-    passport.authenticate('jwt', { session: false }),
+    // passport.authenticate('jwt', { session: false }),
     async (req, res) => {
         await Directors.find()
             .then((directors) => {
