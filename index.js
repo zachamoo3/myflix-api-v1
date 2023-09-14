@@ -141,7 +141,7 @@ app.post('/users/:Username/movies/:MovieID',
                 $push: { Favorite_Movies: req.params.MovieID }
             },
             { new: true }) // this makes sure that the updated document is returned
-            .populate('Favorite_Movies', 'Title')
+            // .populate('Favorite_Movies', 'Title')
             .then((updatedUser) => {
                 res.status(201)
                     .json(updatedUser);
@@ -162,7 +162,7 @@ app.get('/users',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
         await Users.find()
-            .populate('Favorite_Movies', 'Title')
+            // .populate('Favorite_Movies', 'Title')
             .then((users) => {
                 res.status(200)
                     .json(users);
@@ -180,7 +180,7 @@ app.get('/users/:Username',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
         await Users.findOne({ Username: req.params.Username })
-            .populate('Favorite_Movies', 'Title')
+            // .populate('Favorite_Movies', 'Title')
             .then((user) => {
                 res.status(200)
                     .json(user);
@@ -351,7 +351,7 @@ app.put('/users/:Username',
                 }
             },
             { new: true }) // this makes sure that the updated document is returned
-            .populate('Favorite_Movies', 'Title')
+            // .populate('Favorite_Movies', 'Title')
             .then((updatedUser) => {
                 res.status(201)
                     .json(updatedUser);
@@ -382,7 +382,7 @@ app.delete('/users/:Username/movies/:MovieID',
                 $pull: { Favorite_Movies: req.params.MovieID }
             },
             { new: true }) // this makes sure that the updated document is returned
-            .populate('Favorite_Movies', 'Title')
+            // .populate('Favorite_Movies', 'Title')
             .then((updatedUser) => {
                 res.status(200)
                     .json(updatedUser);
