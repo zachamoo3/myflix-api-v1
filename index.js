@@ -409,10 +409,10 @@ app.delete('/users/:Username',
             .then((user) => {
                 if (!user) {
                     res.status(400)
-                        .send(req.params.Username + ' was not found');
+                        .json(req.params.Username + ' was not found');
                 } else {
                     res.status(200)
-                        .send(req.params.Username + ' was deleted.');
+                        .json(req.params.Username + ' was deleted.');
                 }
             })
             .catch((err) => {
