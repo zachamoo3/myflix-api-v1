@@ -69,14 +69,21 @@ app.use(
 
 
 
-// CREATE - Allow new users to register
-/* Expect req.body in this JSON format:
-{
-    username: String, (required)
-    password: String, (required)
-    email: String, (required)
-    birth_date: Date
-} */
+/**
+ * @method POST
+ * @description Allow new users to register
+ * @async
+ * @param req.body:
+ {
+    Username: String(required),
+    Password: String(required),
+    Email: String(required),
+    Birth_Date: Date,
+ }
+ * @throws Error 422 if the req.body is not formatted corrected or is empty
+ * @throws Error 400 if there exists a user with the same req.body.Username
+ * @throws Error 500 if unable to create a new entry in the User collection
+*/
 app.post('/users',
     [
         // Validation logic here for request
@@ -132,7 +139,16 @@ app.post('/users',
     }
 );
 
-// CREATE - Allow users to add a movie to their list of favorites
+/** 
+ * @method POST 
+ * @description Allow users to add a movie to their list of favorites 
+ * @async
+ * @param req.params.Username: String(required)
+ * @param req.params.MovieId: String(required)
+ * @throws Error 500 if user is not authenticated
+ * @throws Error 500 if any of the params are invalid entries
+ * @throws Error 500 if unable to push to the user's Favorite_Movies
+ * */
 app.post('/users/:Username/movies/:MovieID',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -157,7 +173,14 @@ app.post('/users/:Username/movies/:MovieID',
 
 
 
-// READ - Return a list of All users
+/** 
+ * @method GET
+ * @description Return a list of All users 
+ * @async
+ * @returns list of all users
+ * @example [ {User1}, {User2}, {User3} ]
+ * @throws Error 500 if user is not authenticated
+ * */
 app.get('/users',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -175,7 +198,23 @@ app.get('/users',
     }
 );
 
-// READ - Return a user by a username
+/** 
+ * @method GET
+ * @description Return a user by a username 
+ * @async
+ * @param req.params.Username: String(required)
+ * @returns a single user
+ * @example 
+ {
+    Username: String,
+    Password: String,
+    Email: String,
+    Birth_Date: Date,
+    Favorite_Movies: [ {FavMovie1}, {FavMovie2}, {FavMovie3} ]
+ }
+ * @throws Error 500 if user is not authenticated
+ * @throws Error 500 if req.params.Username does not match a user
+ * */
 app.get('/users/:Username',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -193,7 +232,14 @@ app.get('/users/:Username',
     }
 );
 
-// READ - Return a list of ALL movies to the user
+/** 
+ * @method GET 
+ * @description Return a list of ALL movies to the user 
+ * @async
+ * @returns list of all movies
+ * @example [ {Movie1}, {Movie2}, {Movie3} ]
+ * @throws Error 500 if user is not authenticated
+ * */
 app.get('/movies',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -212,7 +258,26 @@ app.get('/movies',
     }
 );
 
-// READ - Return data about a single movie by title to the user
+/** 
+ * @method GET
+ * @description Returns data about a single movie to the the user
+ * @async
+ * @param req.params.Title: String(required)
+ * @returns a single movie
+ * @example
+ {
+    Title: String,
+    Release_Date: Date,
+    Rating: String,
+    Genre: {Genre},
+    Director: {Director},
+    Image_Url: String,
+    Description: String,
+    Featured: Boolean
+ }
+ * @throws Error 500 if user is not authenticated
+ * @throws Error 500 if req.params.Title does not match a movie
+ */
 app.get('/movies/:Title',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -231,7 +296,14 @@ app.get('/movies/:Title',
     }
 );
 
-// READ - Return a list of All genres
+/**
+ * @method GET
+ * @description Return a list of All genres
+ * @async
+ * @returns list of all genres
+ * @example [ {Genre1}, {Genre2}, {Genre3} ]
+ * @throws Error 500 if user is not authenticated
+ */
 app.get('/genres',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -248,7 +320,20 @@ app.get('/genres',
     }
 );
 
-// READ - Return data about a genre by name
+/**
+ * @method GET
+ * @description Return data about a genre by name
+ * @async
+ * @param req.params.Name: String(required)
+ * @returns a single genre
+ * @example
+ {
+    Name: String,
+    Description: String
+ }
+ * @throws Error 500 if user is not authenticated
+ * @throws Error 500 if req.params.Name does not match a genre
+ */
 app.get('/genres/:Name',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -265,7 +350,14 @@ app.get('/genres/:Name',
     }
 );
 
-// READ - Return a list of All directors
+/** 
+ * @method GET
+ * @description Return a list of All directors
+ * @async
+ * @returns list of all directors
+ * @example [ {Director1}, {Director2}, {Director3} ]
+ * @throws Error 500 if user is not authenticated
+ */
 app.get('/directors',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -282,7 +374,22 @@ app.get('/directors',
     }
 );
 
-// READ - Return data about a director by name
+/** 
+ * @method GET
+ * @description Return data about a director by name
+ * @async
+ * @param req.params.Name: String(required)
+ * @returns a single director
+ * @example
+ {
+    Name: String,
+    Birth_Year: String,
+    Death_Year: String,
+    Bio: String
+ }
+ * @throws Error 500 if user is not authenticated
+ * @throws Error 500 if req.params.Name does not match a director
+ */
 app.get('/directors/:Name',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -302,14 +409,23 @@ app.get('/directors/:Name',
 
 
 
-// UPDATE - Allow users to update their user info by username
-/* We'll expect JSON in this format
-{
-    Username: String, (required)
-    Password: String, (required)
-    Email: String, (required)
+/**
+ * @method PUT
+ * @description Allow users to update their user info by username
+ * @async
+ * @param req.params.Username: String(required)
+ * @param req.body:
+ {
+    Username: String,
+    Password: String,
+    Email: String,
     Birth_Date: Date
-} */
+ }
+ * @throws Error 500 if user is not authenticated
+ * @throws Error 422 if req.body is not formatted correctly or is empty
+ * @throws Error 400 if user is attempting to update a profile that is not their own
+ * @throws Error 500 if cannot find the user's profile based on given data
+ */
 app.put('/users/:Username',
     passport.authenticate('jwt', { session: false }),
     [
@@ -367,7 +483,17 @@ app.put('/users/:Username',
 
 
 
-// DELETE - Allow users to remove a movie from their list of favorites
+/**
+ * @method DELETE
+ * @description Allow users to remove a movie from their list of favorites
+ * @async
+ * @param req.params.Username: String(required)
+ * @param req.params.MovieId: String(required)
+ * @throws Error 500 if user is not authenticated
+ * @throws Error 500 if any of the params are invalid entries
+ * @throws Error 500 if unable to pull from the user's Favorite_Movies
+ * @throws Error 400 if user is attempting to update a different user's Favorite_Movies
+ */
 app.delete('/users/:Username/movies/:MovieID',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -395,7 +521,16 @@ app.delete('/users/:Username/movies/:MovieID',
     }
 );
 
-// DELETE - Allow existing users to deregister
+/** 
+ * @method DELETE
+ * @description Allow existing users to deregister
+ * @async
+ * @param req.params.Username: String(required)
+ * @throws Error 500 if the user is not authenticated
+ * @throws Error 400 if user is attempting to delete a profile that is not theirs
+ * @throws Error 400 if the user's entry was not found in the collection
+ * @throws Error 500 if unable to delete the user's entry
+ */
 app.delete('/users/:Username',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
